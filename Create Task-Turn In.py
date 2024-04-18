@@ -1,22 +1,6 @@
-#Requirements:
-#user input
-#function w/ params, conditional, and loop
-#list or dictionary
 import time
 import sys
 import random
-
-#counts up to a number, used to show how much you won
-def countUpTo(desired_amount, color):
-    current_number = 0
-    sleep = 0.1
-    while current_number < desired_amount:
-        print(f"{color}{' $'}{current_number}{reset}", end='\r')
-        current_number += 1
-        sleep -= 0.001
-        sleep = max(sleep, 0.001)
-        time.sleep(sleep)
-    print(f"{color}{' $'}{current_number}{reset}")
 
 #deletes lines and moves the cursor up
 def delete_lines(length):
@@ -26,7 +10,7 @@ def delete_lines(length):
         sys.stdout.write(' ' * 120)
         sys.stdout.write('\r')
 
-#typewriter effect
+#typewriter effects
 def typewriter_effect(phrase, color):
     # Loop through each character in the sentence
     for char in phrase:
@@ -79,10 +63,6 @@ class ps:
     atk = float(1.0) #attack damage
     prot = float(0.05) #armor multiplier
     oprot = float(0.05)
-    cash = 0 #money
-    tm = False #toy mouse equipped
-    cb = False #cardboard box equipped
-    wpLvl = 1 #level of current weapon
     td = False #turn finished
 #Opponent's Stats
 class cs:
@@ -92,8 +72,6 @@ class cs:
     atk = float(0.8)
     prot = float(0)
     oprot = float(0)
-    payout = 40 #money for winning
-    charge = -1
 class js:
     name = "Jessicat"
     hp = float(5.0)
@@ -101,25 +79,11 @@ class js:
     atk = float(1.0)
     prot = float(0.1)
     oprot = float(0.1)
-    payout = 70
-    charge = -1
 bleh = "g"
 #opponents list
 fighters = [cs, js]
 roster = [cs, js]
 
-#Logo
-print ("""⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⠀
-⠀⠀⢸⠈⠙⢷⡄⠀⠀⠀⠀⠀⠀⣠⡾⠋⠀⡇⠀⠀
-⠀⠀⠁⠀⠀⠀⠙⠋⠉⠉⠉⠉⠙⠋⠀⠀⠀⠀⠀⠀
-⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀
-⠀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⠀
-⠀⡎⠀⠑⣦⣤⣀⠀⢀⠀⠀⡀⢀⣀⣤⣴⠀⠀⢹⠀
-⢀⣇⡀⠀⠹⣯⣻⡽⠁⠀⠀⠉⢿⣯⣼⠟⠀⢀⣸⡀
-⠠⢷⠚⢽⣵⣶⣆⠀⠀⢻⡞⠀⠀⣰⣶⣮⠯⠶⡼⠄
-⠀⠊⣯⡽⠛⠉⠉⠒⠂⠉⠉⠒⠒⠉⠉⠙⠻⣽⠑⠀
-⠀⠀⠀⠉⠲⣤⣀⡀⠀⠀⠀⠀⣀⣀⣤⡴⠎⠀⠁⠀
-⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠛⠋⠉⠉⠉⠁⠀⠀⠀⠀""")
 #Text colors
 black = "\033[30m"
 red = "\033[31m"
@@ -138,21 +102,6 @@ bright_magenta = "\033[95m"
 bright_cyan = "\033[96m"
 bright_white = "\033[97m"
 reset = "\033[0m"
-#Title
-colorize("""
- ██ ▄█▀ ██▓▄▄▄█████▓▄▄▄█████▓▓██   ██▓    ██ ▄█▀ ▒█████   ███▄ ▄███▓ ▄▄▄▄    ▄▄▄     ▄▄▄█████▓
- ██▄█▒ ▓██▒▓  ██▒ ▓▒▓  ██▒ ▓▒ ▒██  ██▒    ██▄█▒ ▒██▒  ██▒▓██▒▀█▀ ██▒▓█████▄ ▒████▄   ▓  ██▒ ▓▒
-▓███▄░ ▒██▒▒ ▓██░ ▒░▒ ▓██░ ▒░  ▒██ ██░   ▓███▄░ ▒██░  ██▒▓██    ▓██░▒██▒ ▄██▒██  ▀█▄ ▒ ▓██░ ▒░
-▓██ █▄ ░██░░ ▓██▓ ░ ░ ▓██▓ ░   ░ ▐██▓░   ▓██ █▄ ▒██   ██░▒██    ▒██ ▒██░█▀  ░██▄▄▄▄██░ ▓██▓ ░ 
-▒██▒ █▄░██░  ▒██▒ ░   ▒██▒ ░   ░ ██▒▓░   ▒██▒ █▄░ ████▓▒░▒██▒   ░██▒░▓█  ▀█▓ ▓█   ▓██▒ ▒██▒ ░ 
-▒ ▒▒ ▓▒░▓    ▒ ░░     ▒ ░░      ██▒▒▒    ▒ ▒▒ ▓▒░ ▒░▒░▒░ ░ ▒░   ░  ░░▒▓███▀▒ ▒▒   ▓▒█░ ▒ ░░   
-░ ░▒ ▒░ ▒ ░    ░        ░     ▓██ ░▒░    ░ ░▒ ▒░  ░ ▒ ▒░ ░  ░      ░▒░▒   ░   ▒   ▒▒ ░   ░    
-░ ░░ ░  ▒ ░  ░        ░       ▒ ▒ ░░     ░ ░░ ░ ░ ░ ░ ▒  ░      ░    ░    ░   ░   ▒    ░      
-░  ░    ░                     ░ ░        ░  ░       ░ ░         ░    ░            ░  ░        
-                              ░ ░                                         ░                   
-""", red)
-print("")
-    
 #displays the healthbar for opponents
 def healthbar():
     if fighters[0].hp <= 0:
@@ -243,29 +192,12 @@ def death():
     global fighters
     if ps.hp <= 0:
         typewriter_effect("You Died", bright_red)
-        #play again option
-        playAgain = input("Try Again or Give Up [t/g]")
-        if playAgain == "t": #resets round
-            delete_lines(100)
-            ps.hp = ps.maxhp
-            fighters[0].hp = fighters[0].maxhp
-            fight(fighters[0])
-        if playAgain == "g": #resets game
-            delete_lines(100)
-            ps.maxhp = 5.0
-            ps.hp = ps.maxhp
-            ps.cash = 0
-            fighters = roster.copy()
-            fight(fighters[0])
     if fighters[0].hp <= 0 and ps.hp > 0: #checks if opponent is dead
         typewriter_effect("You Won!", bright_yellow)
-        prize = (fighters[0].payout * ps.hp) #gives prize money to player
-        ps.cash += prize
-        ps.cash = round(ps.cash)
-        countUpTo(prize, bright_green)
         fighters.pop(0) #removes current opponent from list
         time.sleep(2)
         ps.hp = ps.maxhp #resets player hp
+        fight(fighters[0])
 
 #calculates damage
 def damage(atk, per):
@@ -275,7 +207,6 @@ def damage(atk, per):
         critAtk = (atk - multiplier)
     else:
         critAtk = (atk + multiplier)
-    critAtk = (critAtk - (critAtk * per)) #calculates the damage - the opponents protection stat
     if critAtk < 0:
         critAtk = 0 #makes sure the damage isn't a negative int
     float(critAtk)
@@ -286,13 +217,10 @@ def damage(atk, per):
 def fight(opponent):
     global bleh
     #makes sure no one is already dead
-    if ps.hp <= 0 or fighters[0].hp <= 0:
-        death()
-        return
-    m = 2
+    death()
     #makes sure everything is reset from the last round
     nprot = ps.prot
-    oprot = fighters[0].prot
+    fighters[0].oprot = fighters[0].prot
     #displays opponent
     if opponent == cs:
         print("""
@@ -360,7 +288,7 @@ Press [d] to Defend""", bright_cyan)
         bleh = menuSelect
         #player's attack
         if menuSelect == "a":
-            delete_lines(11)
+            delete_lines(7)
             dmg = damage(ps.atk, fighters[0].prot)
             dmg = round(dmg, 2)
             fighters[0].hp = fighters[0].hp - dmg
@@ -369,7 +297,7 @@ Press [d] to Defend""", bright_cyan)
             ps.td = True
         #player's block
         elif menuSelect == "d":
-            delete_lines(11)
+            delete_lines(7)
             inventoryUi()
             typewriter_effect2("You ", "Blocked", black)
             ps.prot += 0.6
@@ -386,12 +314,10 @@ Press [d] to Defend""", bright_cyan)
             delete_lines(1)
             #resets opponent's block
             fighters[0].prot = fighters[0].oprot
-            if fighters[0].hp <= 0:
-                death()
-                return
+            death()
             typewriter_effect(f"{fighters[0].name}{'s Turn'}", yellow)
             time.sleep(1.5)
-            delete_lines(8)
+            delete_lines(5)
             #checks what the player did
             if menuSelect == "a":
                 #chooses opponent's move
@@ -407,14 +333,8 @@ Press [d] to Defend""", bright_cyan)
                     #opponent block
                     typewriter_effect2(fighters[0].name, ' Blocked', black )
                     fighters[0].prot += 0.4
-                    if fighters[0].charge > 0:
-                        typewriter_effect(f"{fighters[0].name}{' is preparing a big attack['}{fighters[0].charge}{']'}", yellow)
-                        fighters[0].charge -= 1
-                        time.sleep(2)
-                        delete_lines(10)
-                    else:
-                        time.sleep(2)
-                        delete_lines(1)
+                    time.sleep(1)
+                    delete_lines(1)
             else:
                 #deals the opponent's damage to the player
                 oppdmg = damage(fighters[0].atk, ps.prot)
@@ -425,9 +345,19 @@ Press [d] to Defend""", bright_cyan)
                 ps.prot = nprot
     death()
     return
-
-#Initial input/home screen
-start_choice = input("Press [y] to start: ")
-if start_choice == "y":
-    delete_lines(1)
-    fight(fighters[0])
+#Title
+colorize("""
+ ██ ▄█▀ ██▓▄▄▄█████▓▄▄▄█████▓▓██   ██▓    ██ ▄█▀ ▒█████   ███▄ ▄███▓ ▄▄▄▄    ▄▄▄     ▄▄▄█████▓
+ ██▄█▒ ▓██▒▓  ██▒ ▓▒▓  ██▒ ▓▒ ▒██  ██▒    ██▄█▒ ▒██▒  ██▒▓██▒▀█▀ ██▒▓█████▄ ▒████▄   ▓  ██▒ ▓▒
+▓███▄░ ▒██▒▒ ▓██░ ▒░▒ ▓██░ ▒░  ▒██ ██░   ▓███▄░ ▒██░  ██▒▓██    ▓██░▒██▒ ▄██▒██  ▀█▄ ▒ ▓██░ ▒░
+▓██ █▄ ░██░░ ▓██▓ ░ ░ ▓██▓ ░   ░ ▐██▓░   ▓██ █▄ ▒██   ██░▒██    ▒██ ▒██░█▀  ░██▄▄▄▄██░ ▓██▓ ░ 
+▒██▒ █▄░██░  ▒██▒ ░   ▒██▒ ░   ░ ██▒▓░   ▒██▒ █▄░ ████▓▒░▒██▒   ░██▒░▓█  ▀█▓ ▓█   ▓██▒ ▒██▒ ░ 
+▒ ▒▒ ▓▒░▓    ▒ ░░     ▒ ░░      ██▒▒▒    ▒ ▒▒ ▓▒░ ▒░▒░▒░ ░ ▒░   ░  ░░▒▓███▀▒ ▒▒   ▓▒█░ ▒ ░░   
+░ ░▒ ▒░ ▒ ░    ░        ░     ▓██ ░▒░    ░ ░▒ ▒░  ░ ▒ ▒░ ░  ░      ░▒░▒   ░   ▒   ▒▒ ░   ░    
+░ ░░ ░  ▒ ░  ░        ░       ▒ ▒ ░░     ░ ░░ ░ ░ ░ ░ ▒  ░      ░    ░    ░   ░   ▒    ░      
+░  ░    ░                     ░ ░        ░  ░       ░ ░         ░    ░            ░  ░        
+                              ░ ░                                         ░                   
+""", red)
+print("")
+time.sleep(3)
+fight(fighters[0])
