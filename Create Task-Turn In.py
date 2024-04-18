@@ -68,7 +68,7 @@ def typewriter_effect4(phrase1, phrase2, color):
         print(f"{color}{char}{reset}", end='', flush=True)
         time.sleep(0.05)
     print(reset)
-#Colorer function
+#Colorer function 
 def colorize(text, color):
     print(f'{color}{text}{reset}')
 
@@ -78,9 +78,6 @@ class cLines:
     toyMouse = ["and begin swinging it around like a maniac","you opponent seemed to get quite excited","it reminds you that you forgot to eat lunch","you wonder if this will actually be an effective weapon"]
     cardboardBox = ["it makes you feel safe","your opponent seems jealous","it would be a pretty fun rocket ship","its more comfortable than any bed","it makes you feel a little sleepy"]
     scratchingPost = ["it reminds you of your favorite curtains","it makes you feel unnaturally strong","your opponent seems worried","you have so much fun you almost forgot you were fighting","your claws glisten in the light"]
-    
-#Pawl's powers
-pawlPower = ["pity", "tired", "hungry", "nap", "sneeeze"]
 
 #Player Stats
 class ps:
@@ -113,72 +110,24 @@ class js:
     oprot = float(0.1)
     payout = 70
     charge = -1
-class ms:
-    name = "Mattmew"
-    hp = 5.5
-    maxhp = 5.5
-    atk = 1.2
-    prot = 0.2
-    oprot = 0.2
-    payout = 100
-    charge = 2
-class ts:
-    name = "Tabbytha"
-    hp = 4.0
-    maxhp = 4.0
-    atk = 1
-    prot = 0
-    oprot = 0
-    payout = 150
-    charge = -1
-class ccs:
-    name = "Cleocatra"
-    hp = 7.0
-    maxhp = 7.0
-    atk = 1.5
-    prot = 0.3
-    oprot = 0.3
-    payout = 200
-    charge = 4
-class ls:
-    name = "Pawl"
-    hp = 15.0
-    maxhp = 15
-    atk = 0.3
-    prot = 0.3
-    oprot = 0.3
-    payout = 400
-    charge = 2
-pawlNap = False
-class mcs:
-    name = "Mewlious Caesar"
-
 #Global variables for buying from Boe
 tms = False
 cbbs = False
 bleh = "g"
-
 #opponents list
-fighters = [cs, js, ms, ts, ccs, ls, mcs]
-roster = [cs, js, ms, ts, ccs, ls, mcs]
-
+fighters = [cs, js]
+roster = [cs, js]
 #player's inventory
 inventory = {
     "Whipped Cream":0, #heals
-    "String":0, 
     "Toy Mouse":0, #offensive Item
     "Cardboard Box": 0, #defensive item
     "Scratching Post":0, #bonus atk
-    "Ball of Yarn":0, #distracts opponent for a turn, resets charges
-    "Catnip":0, #heals + bonus atk
-    "Bullets":0, #ammo for gun
-    "Gun":0, #strongest offensive item, requires bullets
-    "Stripped Tophat":0, #strongest defensive item + bonus atk
     } 
 #used when retrying after dying
 invSave = {}
 #shop layout
-items = ["Whipped Cream","String","Toy Mouse","Cardboard Box","Scratching Post","Ball of Yarn","Catnip","Bullets","Gun","Stripped Tophat"]
+items = ["Whipped Cream","Toy Mouse","Cardboard Box","Scratching Post"]
 #used for displaying inventory
 playerInv = []
 
@@ -194,7 +143,6 @@ print ("""⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⠀
 ⠀⠊⣯⡽⠛⠉⠉⠒⠂⠉⠉⠒⠒⠉⠉⠙⠻⣽⠑⠀
 ⠀⠀⠀⠉⠲⣤⣀⡀⠀⠀⠀⠀⣀⣀⣤⡴⠎⠀⠁⠀
 ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠛⠋⠉⠉⠉⠁⠀⠀⠀⠀""")
-
 #Text colors
 black = "\033[30m"
 red = "\033[31m"
@@ -213,7 +161,6 @@ bright_magenta = "\033[95m"
 bright_cyan = "\033[96m"
 bright_white = "\033[97m"
 reset = "\033[0m"
-
 #Title
 colorize("""
  ██ ▄█▀ ██▓▄▄▄█████▓▄▄▄█████▓▓██   ██▓    ██ ▄█▀ ▒█████   ███▄ ▄███▓ ▄▄▄▄    ▄▄▄     ▄▄▄█████▓
@@ -316,29 +263,30 @@ def healthbar():
         
 #displays player inventory
 def inventoryUi():
-    healthbar()
+    healthbar()#displays opponent health
     inv = ["empty"]
     invLoc = 0
     invLoc2 = 0
     if invEmpty() == False:
         inv.remove("empty")
-        for i in inventory:
+        for i in inventory: #iterates through inventory
             if inventory[i] != 0:
-                playerInv.append(items[invLoc])
+                playerInv.append(items[invLoc])#adds items to inventory display if the player has one
                 invLoc2 = invLoc2 + 1
-                if inventory.get(i) >= 2:
+                if inventory.get(i) >= 2: #adds the amount of an item if its more than 1
                     inv.append(str(invLoc2) + (") ") + i + (" x") + str(inventory.get(i)))
                 else:
                     inv.append(str(invLoc2) + (") ") + i)
                 if invLoc == 9:
                     break
             invLoc = invLoc + 1
-    ps.hp = round(ps.hp, 2)
+    ps.hp = round(ps.hp, 2) #rounds and colors health
     hpclr = green
     if ps.hp <= (ps.maxhp * 1/5):
         hpclr = red
     elif ps.hp <= (ps.maxhp * 2.5/5):
         hpclr = bright_yellow
+    #displays inventory, health, and cash
     print(f"{'Health: ' + hpclr + str(ps.hp) + reset}{'  Cash: ' + green + '$' + str(int(round(ps.cash))) + reset}")
     print("﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌")
     print(inv)
@@ -349,44 +297,45 @@ def death():
     global fighters
     if ps.hp <= 0:
         typewriter_effect("You Died", bright_red)
+        #play again option
         playAgain = input("Try Again or Give Up [t/g]")
-        if playAgain == "t":
+        if playAgain == "t": #resets round
             delete_lines(100)
             ps.hp = ps.maxhp
             fighters[0].hp = fighters[0].maxhp
             inventory.update(invSave)
             fight(fighters[0])
-        if playAgain == "g":
+        if playAgain == "g": #resets game
             delete_lines(100)
             ps.maxhp = 5.0
             ps.hp = ps.maxhp
             ps.cash = 0
             fighters = roster.copy()
             fight(fighters[0])
-    if fighters[0].hp <= 0 and ps.hp > 0:
+    if fighters[0].hp <= 0 and ps.hp > 0: #checks if opponent is dead
         typewriter_effect("You Won!", bright_yellow)
-        prize = (fighters[0].payout * ps.hp)
+        prize = (fighters[0].payout * ps.hp) #gives prize money to player
         ps.cash += prize
         ps.cash = round(ps.cash)
         countUpTo(prize, bright_green)
-        fighters.pop(0)
+        fighters.pop(0) #removes current opponent from list
         time.sleep(2)
-        ps.hp = ps.maxhp
+        ps.hp = ps.maxhp #resets player hp
         shop()
 
 #calculates damage
 def damage(atk, per):
-    sign = random.randint(1, 2)
+    sign = random.randint(1, 2) #randomly increases or decreases damage
     multiplier = round(random.uniform(0.00, 0.50), 2)
     if sign == 1:
         critAtk = (atk - multiplier)
     else:
         critAtk = (atk + multiplier)
-    critAtk = (critAtk - (critAtk * per))
+    critAtk = (critAtk - (critAtk * per)) #calculates the damage - the opponents protection stat
     if critAtk < 0:
-        critAtk = 0
+        critAtk = 0 #makes sure the damage isn't a negative int
     float(critAtk)
-    critAtk = round(critAtk, 2)
+    critAtk = round(critAtk, 2) #rounds damage
     return(critAtk)
 
 #function to use items
@@ -401,7 +350,7 @@ def item(menuSelected):
             ps.hp = ps.maxhp
         inventory["Whipped Cream"] -= 1
         delete_lines(11)
-        inventoryUi()
+        inventoryUi() #updates UI and displays item comment
         typewriter_effect4("You guzzle the airy white foam, ", random.choices(cLines.whippedCream), yellow)
         time.sleep(2)
         delete_lines(1)
@@ -411,29 +360,32 @@ def item(menuSelected):
         typewriter_effect("Your health is full", green)
         time.sleep(1)
         delete_lines(4)  
+    #checks what item player selected
     elif it == "Toy Mouse":
         ps.tm = True
         inventory["Toy Mouse"] -= 1
         delete_lines(11)
-        inventoryUi()
+        inventoryUi() #updates UI and displays item comment
         typewriter_effect4("You reveal a rubbery toy of a gray mouse, ", random.choices(cLines.toyMouse), yellow)
         time.sleep(2)
         delete_lines(1)
+    #checks what item player selected
     elif it == "Cardboard Box":
         ps.cb = True
         ps.prot += 0.2
         inventory["Cardboard Box"] -= 1
         delete_lines(11)
-        inventoryUi()
+        inventoryUi() #updates UI and displays item comment
         typewriter_effect4("You sit in a cardboard box, ", random.choices(cLines.cardboardBox), yellow)
         time.sleep(2)
         delete_lines(1)
+    #checks what item player selected
     elif it == "Scratching Post":
         ps.atk = ps.atk * 2
         scpos = True
         inventory["Sratching Post"] -= 1
         delete_lines(11)
-        inventoryUi()
+        inventoryUi() #updates UI and displays item comment
         typewriter_effect4("You ferociously scratch a clearly beat up pole covered in carpet, ", random.choices(cLines.scratchingPost), yellow)
         time.sleep(2)
         delete_lines(1)
@@ -542,118 +494,6 @@ def fight(opponent):
   _  | |/ _ \/ __/ __| |/ __/ _` | __|
  | |_| |  __/\__ \__ \ | (_| (_| | |_ 
   \___/ \___||___/___/_|\___\__,_|\__|                              """)
-    elif opponent == ms:
-        print("""
-              
-⠀⠀⣦⠚⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⡇⣇⠀⠀⠀⠀
-⠀⠀⡟⠀⠻⣿⣷⣷⣦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
-⠀⠀⢶⠀⠀⣳⡻⣿⣿⣯⣫⡷⣶⣤⣀⣀⣤⣤⣶⢾⣵⣤⣤⣤⣤⣦⣶⣿⣿⠋⣻⣿⣿⣿⣿⣿⡀⠄⠀⠀
-⠀⠀⡾⣀⢰⡜⢾⣯⣭⣛⣿⠿⣕⠻⢿⣻⣿⠿⠿⡹⠝⢿⣿⢿⣿⣿⣿⣿⣁⣼⣿⣟⣿⣿⣿⡏⢀⠔⠀⠀
-⠀⠀⠹⣣⢫⣷⣶⣿⣛⣷⡮⠵⣪⣿⣆⠙⠁⠀⠀⠀⠀⢂⠌⣿⣼⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣟⡁⠀⠀⠀
-⠀⠀⠀⣿⣽⣿⢿⣿⣿⡴⣒⣼⡾⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠙⠈⡬⠻⣿⣿⢿⣿⣭⣿⣿⣿⡃⠀⠀⠀⠀
-⠀⠀⠀⠈⢿⢟⣷⣿⣿⣷⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡓⢁⣾⡟⣡⡿⢿⣿⣿⣿⣏⠀⠐⠀⠀⠀
-⠀⠀⠀⠀⠻⣷⣐⣿⡟⠋⠀⢰⡿⠻⢖⢶⠦⣄⡀⠁⠀⠀⣐⡈⠀⣐⣿⣾⣯⣤⣸⣿⣿⣿⠋⠡⠀⠀⠀⠀
-⠀⠀⠀⢄⠀⠘⠛⠋⠀⠀⠀⠀⠹⣧⠀⢠⣶⠀⠹⣿⣦⣤⣾⢆⣌⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⣀⡱⠄⠀⠀⠀⠀⠀⠀⠀⠘⢷⣤⡤⣤⣤⣾⣿⢿⢿⣿⣿⣷⣅⣿⣿⣿⣿⣿⣿⣿⡥⠀⠀⠀⠀⠀
-⠀⠀⠀⠱⡶⣦⡄⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠙⠻⡉⠀⢀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀
-⠀⠀⠀⠀⢈⣫⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠂⠀⠀⢆⡀⢀⣑⣘⣯⠻⡛⢿⣿⣻⣿⣿⠛⠁⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠛⣓⢊⡻⣵⢄⡀⠀⣀⠀⠠⠎⠀⣐⠠⠀⠀⠻⢿⣽⡿⠋⠀⣿⣿⣻⣿⡫⠟⠒⠒⠠⠄⢉⡁
-⠀⠀⠀⠀⠐⣺⣯⣦⣖⡾⠛⢯⣖⣤⡴⢓⣢⢤⡶⠢⢀⣠⢴⣾⣏⠀⠀⣾⣷⣴⡦⢞⡁⠄⠁⠐⠂⠤⡀⠀
-⠀⠀⠀⠀⢠⣿⣿⣿⣿⣷⣴⣎⠭⣶⢿⣯⣍⠓⢶⠷⠗⠋⢽⢿⣿⣿⣦⣼⠿⣋⠐⢕⠤⡑⠢⢀⠀⠀⠀⠁
-⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣷⣬⣻⣿⣿⣶⣤⣀⣤⣾⣾⣿⡿⠋⠁⠀⠡⡱⡈⠂⠈⠢⡀⠑⢄⠀⠀
-⠀⠀⣴⣿⣿⢿⢿⣿⣟⠷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠉⠀⠀⠀⠀⠀⠀⠀⠀⠑⠀⠀⠀⠐⠄⠀⠑⠄
-⢠⣾⣿⡿⠃⠠⢎⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠡⠀⠀⠀⠈⠄⠀⠀
-⣿⣿⣿⣿⣿⣶⢿⣥⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣿⣿⣿⣿⣿⣿⣼⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  __  __       _   _                           
- |  \/  | __ _| |_| |_ _ __ ___   _____      __
- | |\/| |/ _` | __| __| '_ ` _ \ / _ \ \ /\ / /
- | |  | | (_| | |_| |_| | | | | |  __/\ V  V / 
- |_|  |_|\__,_|\__|\__|_| |_| |_|\___| \_/\_/                             """)
-    elif opponent == ts:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⣿⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⡿⣞⡆⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣼⠀⠀⠀⠀⢸⡟⢏⠓⢦⣄⡀⠀⠀⠀⣆⠀⠀⠀⢀⣠⠞⣱⡧⠁⢸⣇⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠰⣿⠀⠀⠀⠀⠀⣇⠘⡷⡀⠈⢫⣷⣾⣶⣿⣷⣤⡴⢫⠃⣼⢝⣷⡄⠀⢸⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣺⣷⡄⠀⠀⠀⠀⣿⢀⠹⡿⣶⣾⢿⡏⡝⣟⣞⠏⠉⠓⢰⣿⠀⣼⡅⠀⢸⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣾⣿⡇⠀⠀⠀⠀⢸⣇⢺⣿⣿⡇⣿⢱⠼⡼⡎⠀⠀⠀⠀⠙⠧⣿⢊⣱⣿⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣿⣿⠃⠀⠀⠀⠀⠠⣿⣿⢷⠈⡇⢿⢸⠇⣷⠀⢀⠄⡀⢀⣄⡌⢻⣯⣿⣿⡃⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⠀⣸⡏⢸⢦⣑⠸⣀⠃⠙⣠⢗⣽⣷⢿⣻⠁⢀⠹⣭⣿⣳⣶⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢻⢿⡾⠀⠀⠀⠀⠀⣾⣷⣾⣷⣝⢦⢾⢸⠲⣡⣞⠟⢽⣾⣷⣾⣏⠿⣯⣻⣿⡋⠀⠀⠀⠀
-⠀⠀⠀⠀⢀⣸⣤⣿⡆⣀⡄⠀⠀⠹⣧⣿⡮⠻⡷⠿⠓⣻⢟⠒⡬⢑⡯⠵⠦⡴⣾⣿⣿⠟⠀⠀⠀⠀⠀
-⠀⠀⠀⡤⢦⠀⣿⣿⡏⣾⠃⠀⠀⠒⠘⣿⣿⠞⣧⣲⠌⠁⠱⠁⠒⠒⠓⢒⡾⡾⣷⡿⠇⠀⠀⠀⠀⠀⠀
-⠀⣠⣏⢳⡈⣇⣓⣿⢠⡃⠀⠀⠀⠐⠁⡸⢻⢧⣀⠑⠤⠤⠠⢄⠀⢀⣴⣷⡯⠊⡬⣿⠀⠀⠀⠀⠀⠀⠀
-⠀⠙⣾⣦⣷⡾⠋⠀⡰⠁⠀⠀⠀⠀⠰⠀⠊⠀⠀⠉⠐⠤⣀⣤⣶⣿⡿⡛⠀⠀⢸⣾⢦⣀⠀⠀⠀⠀⠀
-⠀⠀⠻⣦⡼⢿⣶⡞⠁⠀⠀⠀⠀⢀⣠⣦⠴⣤⣄⣤⢤⣤⢒⡿⠟⢋⠔⢀⣠⠖⣫⢴⣾⣿⠷⣦⣤⣀⠀
-⠀⠀⢰⡻⡀⢸⣸⠀⠀⠀⠀⠀⢠⡿⠟⣫⣱⡴⢟⣶⡿⠛⠭⠷⡲⠛⡫⠛⣵⣶⠟⢋⡩⠴⠷⢿⣿⣿⣅
-⠀⠀⣾⡯⠉⠛⠋⡇⠀⠀⠀⣠⣟⣒⣤⡾⡟⣡⣽⠋⡰⡴⠀⢚⣦⡾⣫⣺⡟⠁⠀⠠⠐⠒⠀⠸⣷⣾⣳
-⠀⢠⢳⠃⠀⠀⢀⣇⠀⢀⣴⢟⣶⠟⢋⠎⡴⣾⣇⣠⠁⣀⡴⡻⢉⢮⣿⣽⠖⠁⠀⠀⠐⠒⠶⣤⡜⠈⡟
-⠀⡾⠟⠀⠀⠀⠘⢹⡞⡿⢵⡾⠁⠀⠀⣄⢹⣻⢟⣛⡩⠕⠈⠊⣱⣿⡟⠃⠤⠄⣀⠀⠀⢀⣰⠿⠁⣼⡇
-⢰⣗⡀⢀⠠⣐⠝⣽⣷⢀⣿⢇⠀⠀⣨⠎⡾⣶⠃⢀⠀⠀⢀⣼⣿⡛⣒⣀⠬⣁⠒⡭⣶⣟⠁⣠⣺⡟⠀
-⣼⠙⢳⣀⠩⣔⠝⣹⢿⣏⢾⣷⡙⢆⠹⣔⣧⡞⠴⠃⠀⠂⣱⡿⠬⠤⠀⣀⣈⡵⠿⣦⣌⣻⢯⣾⠏⠀⠀
-  _____     _     _           _   _           
- |_   _|_ _| |__ | |__  _   _| |_| |__   __ _ 
-   | |/ _` | '_ \| '_ \| | | | __| '_ \ / _` |
-   | | (_| | |_) | |_) | |_| | |_| | | | (_| |
-   |_|\__,_|_.__/|_.__/ \__, |\__|_| |_|\__,_|
-                        |___/                 """)
-    elif opponent == ccs:
-        print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣤⣀⣾⣽⣿⣳⣀⣤⣴⡿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠊⢿⣿⣿⡿⣷⣿⣿⣿⣿⡟⠰⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⡠⠋⠒⠒⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣂⣼⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⣹⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣰⠋⢀⣀⡤⢤⠀⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⡇⠀⡏⠀⠀⠈⣇⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣼⣿⡟⢿⣟⠛⠛⠛⣛⣿⠟⣻⣿⣯⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢧⠀⠙⣄⣀⣀⠜⢠⠇⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⡟⠈⠸⣿⣿⣿⣿⣿⣿⣵⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⡤⠵⠄⠀⠀⠀⠒⠳⠤⡄⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣦⣄⠀⠘⢶⠂⠀⠀⠤⣼⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠓⠒⢲⠀⠀⢺⠲⠤⠤⠇⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣧⣀⠀⠂⠉⠐⠀⢀⣤⣾⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⢸⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⠒⠤⠔⢚⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⡜⠀⢀⡇⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⣿⠋⠑⠀⠀⠊⠛⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⡇⠀⢸⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⡟⠹⣿⣿⣿⣿⣿⣷⣬⠂⠀⣭⣼⣿⣿⣿⣿⣿⢿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢀⠇⠀⢸⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⡟⠀⠀⢳⣿⣿⣿⣿⣟⣿⣶⣶⣿⣟⣿⣿⣿⣿⡏⠸⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢸⠀⣀⡏⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⡇⠀⢀⣰⢿⣿⢿⣿⢿⢿⢷⣾⣿⣿⣿⣿⣿⣿⢁⠀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⡴⢚⣅⢳⡀⠀⣼⣿⢫⣾⣿⣿⣿⡟⠁⠀⢠⠃⠈⢻⣮⠻⣿⣾⣾⣷⣾⣿⡿⢿⣾⠇⠘⣄⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⡄⠤⢙⡇⢣⣰⣳⠃⣿⣾⣿⣿⡿⠁⠀⠀⠘⡄⠀⠀⠙⢷⣄⡙⠛⡟⠛⣉⣴⠿⠁⠀⠀⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀
-⠸⡹⠲⢿⢅⣸⢿⣿⣴⣿⡿⠿⠿⢇⠀⠀⠀⣠⣿⣤⣀⠀⠀⠙⢻⡽⢿⣽⡋⠁⠀⠀⣀⣴⣿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⡏⠒⢼⣠⣫⣿⣟⣭⡗⡇⠀⠀⠀⠑⠀⡰⣿⣿⣿⣿⣟⣿⣿⣿⡷⠿⣿⣽⣿⣻⣿⡟⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢰⠃⠀⡇⠀⠉⢻⢿⣿⡵⠁⠀⠀⠀⠀⠐⣼⣿⠟⣹⣏⠉⠉⠁⠀⠀⠀⠀⠀⠀⠈⠉⡇⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⠀⠀⡇⠀⠀⡞⢠⣿⣿⣿⣿⣶⣶⣶⣾⣿⠃⣼⡟⢹⡦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡈⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⡸⠀⢰⠃⠀⢠⢇⡏⣿⢸⣿⣿⣿⣿⣿⣿⠃⣸⠟⠀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣶⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀
-⡇⠀⢸⠀⠀⢸⡼⠀⢿⣿⣿⣿⣿⣿⣿⡏⢀⠏⠀⣼⣅⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⢀⣼⣿⠏⢝⣧⡀⠀⠀⠀⠀⠀⠀
-   ____ _                      _             
-  / ___| | ___  ___   ___ __ _| |_ _ __ __ _ 
- | |   | |/ _ \/ _ \ / __/ _` | __| '__/ _` |
- | |___| |  __/ (_) | (_| (_| | |_| | | (_| |
-  \____|_|\___|\___/ \___\__,_|\__|_|  \__,_|""")
-    elif opponent == ls:
-        print(""" 
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠻⢶⣤⡘⣷⣄⣀⣤⣤⣤⣤⡴⠾⠛⠷⠶⠶⠶⠾⠟⠳⢶⣦⣄⡀⢰⡿⠀⣠⣶⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢠⣤⣤⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣼⠿⣿⣿⣏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⣿⣷⣿⣏⣀⣀⣀⣀⣀⣤⣤⣤⡶⠶⠾⠛⠛⠛⠛⠛⣷⡀⠀⠀
-⢿⣧⣀⠀⠉⠉⠙⠛⠻⠶⠶⠶⠶⠶⠶⠾⠛⠉⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⣀⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⢨⣿⣿⣿⣿⣿⣿⣯⣍⡉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡿⠁⠀⠀
-⠀⠈⠙⠻⢶⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⣤⣶⣶⣾⣿⣿⣿⣿⣿⣿⣶⣴⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⢀⣠⣶⠾⠋⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠉⠛⠻⣦⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠛⠛⠋⣁⣤⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣏⠉⠉⠉⠁⠀⠀⠀⠀⣠⣴⠾⠛⠉⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⠿⢋⣿⠃⠀⢀⣀⣀⣤⣤⣤⣤⣶⣶⣶⣦⣤⣤⣀⣀⣀⡀⠻⣦⡀⠀⠀⠀⠀⠀⢀⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡆⠀⠀⠀⠀⠀⠀⢀⣴⠿⠋⠀⠀⣼⣧⣶⠾⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠛⠻⣿⣿⡄⠀⡀⠀⠀⣾⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⣰⡿⠃⠀⠀⠀⠀⢿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⣿⠘⠻⢶⣄⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣼⠏⠀⠀⠀⠀⠀⠀⠘⠿⢶⣄⣀⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⠿⣣⡾⠋⠀⠀⠈⢿⣌⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣡⣤⣤⣤⣾⣿⣶⣶⣶⡆⠀⠀⠀⠀⠀⠀⠉⠛⢷⣄⡉⠛⣷⡄⠀⠀⠀⠀⠀⠀⠀⢰⡟⣠⡾⠋⠀⠀⠰⠶⠶⠿⣿⣿⣷⣶⠶⢶⣶⣤⣤⣀⣀⣀⠀
-⠀⠀⠀⠰⠶⠾⠛⠛⢛⣿⠉⠀⠀⣀⣽⣧⣤⣴⠦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣦⣘⠇⠀⠀⠀⠀⠀⠀⠀⢨⣿⠏⠀⠀⠀⠀⠰⠶⢶⣤⣿⡀⠈⠛⢷⣦⣄⠀⠈⠉⠉⠛⠛
-⠀⠀⠀⠀⠀⠀⢀⣀⣼⣷⠶⠿⠛⠋⢹⡇⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣦⣀⡀⠀⠀⣀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠰⢶⣤⣿⠛⠿⢶⣤⣈⠙⢷⣄⠀⠀⠀⠀
-⠀⣀⣠⣤⡶⠾⠛⠉⠉⣿⡀⢀⣀⣤⡾⣿⡟⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⣿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠟⠻⣶⣄⡈⠙⠿⠎⢿⣆⠀⠀⠀
-⠟⠛⠉⠀⠀⠀⠀⢀⣠⣼⣿⡛⠋⠁⠀⠈⢻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠿⢶⣤⣄⡀⠀⠀⠀⠀⠀⢀⣠⣼⠟⠁⠀⠀⠀⠙⠻⣶⡄⠀⠀⢻⣆⠀⠀
-⠀⠀⠀⠀⣀⣴⠾⠛⠉⣸⡯⢿⣄⠀⠀⠀⠀⠈⠛⠷⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠟⠉⠀⠀⠈⠉⠛⠛⠿⣿⡿⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠀⠀⢿⡆⠀
-⠀⢠⣴⠿⠋⠁⠀⢀⣼⠟⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠷⠶⠶⠶⠶⣶⣶⡾⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⠀
-⠀⠀⠁⠀⠀⢀⣴⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣦⡀⠀⠀⠀⠀⠀⠀⠀⢀⣰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡷
-⠀⠀⠀⢠⣾⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠶⠶⠶⠶⠾⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇
-⠀⠀⠀⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣶⣤⣴⣤⣖⣦⣤⣦⣤⣤⣤⣖⣦⡌⠛
-  ____                _ 
- |  _ \ __ ___      _| |
- | |_) / _` \ \ /\ / / |
- |  __/ (_| |\ V  V /| |
- |_|   \__,_| \_/\_/ |_|""")
     #displays inventory and battle options
     while ps.hp > 0 and fighters[0].hp > 0:
         inventoryUi()
@@ -699,134 +539,42 @@ Press [1-10] to select Items""", bright_cyan)
             if fighters[0].hp <= 0:
                 death()
                 return
-            #checks if Pawl is napping
-            if pawlNap == True:
-                pawlNap = False
-                fight(fighters[0])
             typewriter_effect(f"{fighters[0].name}{'s Turn'}", yellow)
-            #checks for Mattmew's chargeAtk
-            if ms.charge == 0:
-                    ms.charge = 2
-                    chrgdmg = 3 - (3 * ps.prot)
-                    chrgdmg = round(chrgdmg, 2)
-                    ps.hp -= chrgdmg
-                    typewriter_effect3(f"{fighters[0].name}{' bashed you over the head for '}", chrgdmg, " Damage", red)
-                    time.sleep(1.5)
-                    delete_lines(9)
-            #checks for Cleocatra's chargeAtk
-            elif ccs.charge == 0:
-                ccs.charge = 4
-                chrgdmg = 5 - (5 * ps.prot)
-                chrgdmg = round(chrgdmg, 2)
-                ps.hp -= chrgdmg
-                typewriter_effect3(f"{fighters[0].name}{' summoned the spirit of Raw, the Tuna God, smiting you for '}", chrgdmg, " Damage", red)
-                time.sleep(1.5)
-                delete_lines(9)
-            #checks for Pawl's chargeAtk
-            elif ls.charge == 0:
-                ls.charge = 1
-                #randomly selects a "Pawl Power"
-                luck = random.choices(pawlPower, weights=[0.15, 0.1, 0.35, 0.2, 0.2], k=1)
-                if luck == ['pity']:
-                    typewriter_effect2("Pawl feels pity for you ", "[+2.0 HP]", green)
-                    ps.hp = ps.hp + 2
-                    if ps.hp > ps.maxhp:
-                        ps.hp = ps.maxhp
-                elif luck == ['tired']:
-                    typewriter_effect2("Pawl has tired of this fruitless game ", "[-99% HP]", red)
-                    ps.hp = ps.hp/100
-                elif luck == ['hungry']:
-                    if inventory["Whipped Cream"] >= 1:
-                        inventory["Whipped Cream"] -= 1
-                        ls.hp += (ls.hp * 0.1)
-                        typewriter_effect2("Pawl is hungry ", "[-1 Whipped Cream]", yellow)
-                    else:
-                        typewriter_effect("Pawl seems more restless", yellow)
-                        ls.atk = ls.atk * 1.5
-                elif luck == ['nap']:
-                    ls.prot = 0.9
-                    ls.atk * 0.5
-                    pawlNap = True
-                    typewriter_effect("Pawl decides to take a nap ", yellow)
-                elif luck == ['sneeze']:
-                    pdmg = ps.hp * 0.1
-                    ps.hp -= pdmg
-                    typewriter_effect2("Pawl sneezes ", f"{'[-'}{pdmg}{']'}")
-                time.sleep(1.5)
-                delete_lines(9)
-            else:
-                #checks what the player did
-                if menuSelect == "a":
-                    #checks if the opponent is Cleocatra
-                    if fighters[0] == ccs:
-                        aord = random.randint(1, 5)
-                        #Chooses whether Cleocatra will attack or defend
-                        if aord < 3:
-                            oppdmg = damage(fighters[0].atk, ps.prot)
-                            typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage", red)
-                            ps.hp -= oppdmg
-                            time.sleep(1)
-                            delete_lines(9)
-                        elif aord >= 3:
-                            typewriter_effect2(fighters[0].name, ' Blocked', black )
-                            fighters[0].prot += 0.5
-                            if fighters[0].charge > 0:
-                                typewriter_effect(f"{fighters[0].name}{' is preparing a big attack['}{fighters[0].charge}{']'}", yellow)
-                                fighters[0].charge -= 1
-                            time.sleep(2)
-                            delete_lines(10)
-                    #checks if the opponent is Tabbytha
-                    elif fighters[0] == ts:
-                            oppdmg = damage(fighters[0].atk, ps.prot)
-                            typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage x2", red)
-                            ps.hp -= (oppdmg * 2)
-                            time.sleep(2)
-                            delete_lines(9)
-                    else:
-                        #chooses opponent's move
-                        aord = random.randint(1, 2)
-                        #opponent atk
-                        if aord == 1:
-                            oppdmg = damage(fighters[0].atk, ps.prot)
-                            if fighters[0] == ts:
-                                typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage x2", red)
-                                ps.hp -= (oppdmg * 2)
-                            else:
-                                typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage", red)
-                                ps.hp -= oppdmg
-                            time.sleep(1)
-                            delete_lines(9)
-                        else:
-                            #opponent block
-                            typewriter_effect2(fighters[0].name, ' Blocked', black )
-                            fighters[0].prot += 0.4
-                            if fighters[0].charge > 0:
-                                typewriter_effect(f"{fighters[0].name}{' is preparing a big attack['}{fighters[0].charge}{']'}", yellow)
-                                fighters[0].charge -= 1
-                                time.sleep(2)
-                                delete_lines(10)
-                            else:
-                                time.sleep(2)
-                                delete_lines(9)
-                else:
-                    #makes tabbytha deal x2 damage
-                    if fighters[0] == ts:
-                            typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage x2", red)
-                            ps.hp -= (oppdmg * 2)
-                    else:
-                        #deals the opponent's damage to the player
-                        oppdmg = damage(fighters[0].atk, ps.prot)
-                        typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage", red )
-                        ps.hp -= oppdmg
+            time.sleep(1.5)
+            delete_lines(8)
+            #checks what the player did
+            if menuSelect == "a":
+                #chooses opponent's move
+                aord = random.randint(1, 2)
+                #opponent atk
+                if aord == 1:
+                    oppdmg = damage(fighters[0].atk, ps.prot)
+                    typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage", red)
+                    ps.hp -= oppdmg
                     time.sleep(1)
-                    delete_lines(9)
+                    delete_lines(1)
+                else:
+                    #opponent block
+                    typewriter_effect2(fighters[0].name, ' Blocked', black )
+                    fighters[0].prot += 0.4
+                    if fighters[0].charge > 0:
+                        typewriter_effect(f"{fighters[0].name}{' is preparing a big attack['}{fighters[0].charge}{']'}", yellow)
+                        fighters[0].charge -= 1
+                        time.sleep(2)
+                        delete_lines(10)
+                    else:
+                        time.sleep(2)
+                        delete_lines(1)
+            else:
+                #deals the opponent's damage to the player
+                oppdmg = damage(fighters[0].atk, ps.prot)
+                typewriter_effect3(f"{fighters[0].name}{' dealt '}", oppdmg, " Damage", red )
+                ps.hp -= oppdmg
+                time.sleep(1)
+                delete_lines(1)
                 ps.prot = nprot
     death()
     return
-
-#gambling chances
-gamble = ["🐶","😿","🐭","🧶","😸"]
-weights = [0.25, 0.23, 0.22, 0.2, 0.1]
 
 #Boe's Shop
 def shop():
@@ -868,9 +616,8 @@ def shop():
  \$$$$$$$   \$$$$$$  \$$$$$$$$      \$$$$$$         \$$$$$$  \$$   \$$  \$$$$$$  \$$                                                                           """)
     print(f"{'Cash: ' + green + '$' + str(ps.cash) + reset}")
     #gives the player a choice to buy, gamble, or go to the next fight
-    colorize("""Press [a] to buy things
-Press [s] to gamble
-Press [d] to fight next opponent""", yellow)
+    colorize("""Press [a] to buy thing
+             Press [d] to start next fight""")
     x = input()
     #displays the store shelves
     if x == "a":
@@ -903,109 +650,53 @@ Press [d] to fight next opponent""", yellow)
             sell = input()
             sell = int(sell)
             #tells the player about the item and asks if their sure
-            if sell == 1:
+            if sell == 1 and ps.cash >= 75:
                 delete_lines(12)
-                print("""A quick and reliable can of foamy pale cream [Heals 1 HP]""")
-                buy = input("Buy?[y/n] ")
-                #checks if they are sure and can afford it
-                if buy == "y" and ps.cash >= 75:
-                    delete_lines(1)
-                    inventory["Whipped Cream"] += 1
-                    ps.cash -= 75
-                    typewriter_effect("You got +1 Whipped Cream!", yellow)
-                    time.sleep(1)
-                    j = 3
-                else:
-                    delete_lines(1)
-                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
-                    time.sleep(1)
-                    j = 3
+                inventory["Whipped Cream"] += 1
+                ps.cash -= 75
+                typewriter_effect("You got +1 Whipped Cream!", yellow)
+                time.sleep(1)
+                j = 3
             #tells the player about the item and asks if their sure
-            elif sell == 2 and tms == False:
+            elif sell == 2 and tms == False and ps.cash >= 250:
                 delete_lines(12)
-                print("""A rubber gray mouse toy with an excessivly long tail [Deals Extra Damage]""")
-                buy = input("Buy?[y/n] ")
-                #checks if they are sure and can afford it
-                if buy == "y" and ps.cash >= 250:
-                    tms = True
-                    delete_lines(1)
-                    inventory["Toy Mouse"] += 1
-                    ps.cash -= 250
-                    typewriter_effect("You got +1 Toy Mouse!", yellow)
-                    time.sleep(1)
-                    j = 3
-                else:
-                    delete_lines(1)
-                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
-                    time.sleep(1)
-                    j = 3
+                tms = True
+                delete_lines(1)
+                inventory["Toy Mouse"] += 1
+                ps.cash -= 250
+                typewriter_effect("You got +1 Toy Mouse!", yellow)
+                time.sleep(1)
+                j = 3
             elif sell == 2 and tms == True:
                 delete_lines(1)
                 typewriter_effect("[Boe] Ir only gots one mice", blue)
                 time.sleep(1)
                 delete_lines(1)
             #tells the player about the item and asks if their sure
-            elif sell == 3 and cbbs == False:
+            elif sell == 3 and cbbs == False and ps.cash >= 550:
                 delete_lines(12)
-                print("""A small rugged cardboard box [Extra Protection]""")
-                buy = input("Buy?[y/n] ")
-                #checks if they are sure and can afford it
-                if buy == "y" and ps.cash >= 550:
-                    delete_lines(1)
-                    inventory["Cardboard Box"] += 1
-                    ps.cash -= 550
-                    cbbs = True
-                    typewriter_effect("You got +1 Cardboard Box!", yellow)
-                    time.sleep(1)
-                    j = 3
-                else:
-                    delete_lines(1)
-                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
-                    time.sleep(1)
-                    j = 3
+                inventory["Cardboard Box"] += 1
+                ps.cash -= 550
+                cbbs = True
+                typewriter_effect("You got +1 Cardboard Box!", yellow)
+                time.sleep(1)
+                j = 3
             elif sell == 3 and cbbs == True:
                 delete_lines(1)
                 typewriter_effect("[Boe] Out uv boxes", blue)
                 time.sleep(1)
                 delete_lines(1)
             #tells the player about the item and asks if their sure
-            elif sell == 4:
+            elif sell == 4 and ps.cash >= 300:
                 delete_lines(12)
-                print("""A tall post wrapped in very worn down carpet [x2 Damage for a turn]""")
-                buy = input("Buy?[y/n] ")
-                #checks if they are sure and can afford it
-                if buy == "y" and ps.cash >= 300:
-                    tms = True
-                    delete_lines(1)
-                    inventory["Scratching Post"] += 1
-                    ps.cash -= 300
-                    typewriter_effect("You got +1 Scratching Post!", yellow)
-                    time.sleep(1)
-                    j = 3
-                else:
-                    delete_lines(1)
-                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
-                    time.sleep(1)
-                    j = 3
+                tms = True
+                delete_lines(1)
+                inventory["Scratching Post"] += 1
+                ps.cash -= 300
+                typewriter_effect("You got +1 Scratching Post!", yellow)
+                time.sleep(1)
+                j = 3
             #tells the player about the item and asks if their sure
-            elif sell == 5:
-                delete_lines(12)
-                print("""A scrangly ball of tangled pink yarn [Distracts Opponent/Resets Charge]""")
-                buy = input("Buy?[y/n] ")
-                #checks if they are sure and can afford it
-                if buy == "y" and ps.cash >= 300:
-                    tms = True
-                    delete_lines(1)
-                    inventory["Ball of Yarn"] += 1
-                    ps.cash -= 300
-                    typewriter_effect("You got +1 Ball of Yarn!", yellow)
-                    time.sleep(1)
-                    j = 3
-                else:
-                    delete_lines(1)
-                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
-                    time.sleep(1)
-                    j = 3
             #starts next fight
             elif sell == 0:
                 delete_lines(13)
@@ -1019,96 +710,6 @@ Press [d] to fight next opponent""", yellow)
                 typewriter_effect("[Boe] Yuh aint got the cash")
                 time.sleep(1)
                 j = 13
-    #makes sure you have money to gamble
-    elif x == "s" and ps.cash <= 0:
-        typewriter_effect("[Boe] Yurr out of monee", blue)
-        time.sleep(1.5)
-        delete_lines(1)
-        shop()
-    #starts slot machine
-    elif x == "s":
-        delete_lines(38)
-        print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠤⠤⠤⠤⠤⠤⠤⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠤⠒⣉⡡⠤⣖⣒⣒⣒⣒⣒⡒⠤⠤⣉⠒⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠊⡡⣖⣭⡶⠾⠛⠛⠯⠉⠉⠉⠙⠟⠛⠷⢶⣭⣲⢌⡑⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠔⠉⡠⣪⣾⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢷⣝⢦⡈⠢⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⡠⠊⠉⠉⠉⠉⠁⠀⠈⠉⠁⣀⣴⣮⣾⣿⡇⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣷⣝⡢⣀⠈⠉⠐⠒⠂⠈⠉⠉⠉⠑⠢⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣸⠀⠀⡴⣩⣿⣿⣭⣵⣾⣿⣿⣿⣿⣿⣿⣿⣿⣌⣒⣂⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣒⣪⣾⣿⣿⣿⣿⣷⣯⣥⣶⣶⣶⣶⣿⣭⣢⠀⠀⢱⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⢻⠀⠀⡷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠇⠀⢸⠃⠀⠀⠀⠀
-⠀⠀⠀⠀⠈⢣⣀⣘⣟⣿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⢿⣟⣀⣠⠋⠀⠀⠀⠀⠀
-⠀⠀⠀⢀⠎⠀⠉⡝⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠈⠀⠈⠉⠉⠉⠉⠉⠹⡍⠀⠑⡄⠀⠀⠀⠀
-⠀⠀⠀⡜⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣷⠀⠀⢱⠀⠀⠀⠀
-⠀⠀⠀⠇⠀⠀⡇⣥⠖⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⣲⢀⠗⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⢲⠹⡒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠒⠛⢏⠙⡄⠀⠈⡆⠀⠀⠀
-⠀⠀⢸⠀⠀⢰⢡⡟⣲⡺⠯⠭⠭⠭⠭⠭⠭⠩⢽⣩⡟⠳⣸⡖⣶⣩⠭⠭⠭⠭⠭⠭⠭⠭⠽⣭⡕⢺⡆⡗⣶⣶⠾⠭⠭⠭⠵⠥⠭⠤⠿⣶⣶⠺⣇⡇⠀⠀⢣⠀⠀⠀
-⠀⠀⡄⠀⠀⢸⣼⢃⠇⠈⣣⠠⠒⠈⠉⠉⠒⢴⡋⠀⡇⡇⣿⠁⡇⠈⣳⠠⠒⠊⠉⠉⠑⠢⡋⠀⢹⢸⡇⢁⢧⠀⢑⡄⠔⠂⠈⠉⠐⠢⣜⠁⠈⡇⣿⢱⠀⠀⢸⠀⠀⠀
-⠀⠀⡇⠀⠀⣿⣿⢸⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠉⠲⡧⡇⣿⢰⠖⠊⠁⠀⠀⠀⠀⠀⠀⠀⠈⠓⠾⠘⣿⢸⠸⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠑⠢⢧⢹⣿⠀⠀⠘⡆⠀⠀
-⠀⠀⡇⠀⠀⣿⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⢹⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣿⢸⠰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢸⡿⠀⠀⠀⡇⠀⠀
-⠀⠀⡇⠀⠀⣿⣇⠈⠀⠀⣾⣷⠀⠀⠀⠀⣾⣷⠀⠀⠡⢸⣿⢸⠀⠀⢰⣿⡆⠀⠀⠀⢰⣿⡆⠀⠀⡇⣿⠸⠀⠀⠀⣾⣷⠀⠀⠀⠀⣾⣷⠀⠀⢸⢸⡇⡇⠀⠀⡇⠀⠀
-⠀⠀⡇⠀⠀⣿⣏⠀⠀⢀⣀⣀⠀⢷⠞⠀⣀⣀⠀⠀⢰⢸⡗⢸⠀⠀⢀⣀⠀⠺⡾⠃⢀⣀⡀⠀⠀⡇⣿⢀⠀⠀⠀⣀⣀⠀⠶⡾⠂⣀⣀⠀⠀⢸⢸⡇⡇⠀⠀⡇⠀⠀
-⠀⠀⡇⠀⠀⣿⣿⢰⠘⠛⠋⠙⠤⠊⠣⠔⠉⠛⠛⠀⡀⢸⣿⢸⠀⠻⠛⠋⠣⠜⠙⠤⠊⠙⠛⠗⠀⡇⣿⢸⢀⠀⠟⠛⠙⠤⠚⠑⠤⠋⠙⠛⠃⢸⢸⣷⠇⠀⠀⡇⠀⠀
-⠀⠀⡇⠀⠀⣿⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇⠄⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇⣿⢸⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢸⣿⠀⠀⢰⠇⠀⠀
-⠀⠀⢁⠀⠀⢸⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢀⣿⢸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡌⣼⣿⠀⠀⢸⠀⠀⠀
-⠀⠀⢸⠀⠀⢸⣿⡎⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⣿⡘⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢸⡟⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⣿⡟⠀⠀⣸⠀⠀⠀
-⠀⠀⠈⡄⠀⠀⣿⡇⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢠⢻⡇⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢸⡇⣧⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢱⣿⡇⠀⠀⡇⠀⠀⠀
-⠀⠀⠀⢇⠀⠀⢻⣿⣘⣦⣤⣤⣀⣀⣀⣀⣀⣠⣤⣤⣜⣸⢹⣇⣑⣤⣤⣄⣀⣀⣀⣀⣀⣤⣤⣴⣃⣾⣇⣇⣦⣤⣄⣀⣀⣀⣀⣀⣀⣠⣤⣤⣋⣼⣿⠁⠀⢰⠃⠀⠀⠀
-⠀⠀⠀⠸⡀⠀⠸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡈⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⢸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⡏⠀⠀⡞⠀⠀⠀⠀
-⠀⠀⠀⡠⠛⠛⣻⣫⣍⣩⣿⣭⣿⣿⣍⣉⣩⣭⣉⣉⣉⣩⠗⣻⣉⣹⣯⣉⣉⣉⣉⣉⣽⣍⣉⣉⣉⡗⡟⠛⣍⣉⣹⣯⣉⣉⣽⣯⣭⣿⡯⣉⣉⣁⣻⡛⠛⢧⠀⠀⠀⠀
-⠀⢀⠞⠀⢀⡔⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣹⣿⡿⢀⢧⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣏⣩⣿⣷⠱⡀⢫⣿⣿⣷⣧⣿⣿⣿⣿⣿⣿⣿⣍⣽⣷⡕⡄⠀⠑⡄⠀⠀
-⡴⠁⠀⠀⠚⠚⠛⠛⠛⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠥⠇⠸⠼⠭⠭⠭⠭⠭⠭⠭⠍⠉⠉⠉⠉⠉⠉⠁⠇⠘⠽⠯⠭⠭⠭⠭⠭⠭⠉⠉⠙⠉⠉⠛⠛⠚⠂⠀⠈⢆⠀
-⠋⠛⠛⠓⠒⠒⠒⠒⠒⠒⠲⠶⠶⠶⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠴⠶⠶⠒⠒⠒⠒⠒⠒⠒⢒⣒⡛⠛⠋⠉⡆
-⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⡇⠀⠀⠀⡇
-⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠤⠇⠀⠀⢰⠃
-⠐⢤⠤⠤⠤⣤⣤⣤⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣤⣤⣤⡤⠤⠤⡤⠞⠀
-⠀⠀⡆⠀⠀⠀⠀⡖⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⡇⠀⠀""")
-        print(f"{'Cash: ' + green + '$' + str(ps.cash) + reset}")
-        #gets amount the player wants to bet
-        amount = int(input("How much would you like to bet? (0 to cancel) "))
-        z = 0.5
-        #checks that they have the money
-        if amount >= 1 and amount <= ps.cash:
-            ps.cash -= amount
-            #randomly chooses slot outcome
-            c = random.choices(gamble, weights, k=3)
-            #checks and displays slot outcome
-            for char in c:
-                print(char, end='', flush=True)
-                time.sleep(z)
-                z += 0.5
-            #calculates winnings depending on outcome
-            print()
-            gambleM = 1
-            for i in c:
-                if i == "🐶":
-                    gambleM -= 1
-                elif i == "😿":
-                    gambleM -= 0.5
-                elif i == "🐭":
-                    gambleM += 0.25
-                elif i == "🧶":
-                    gambleM += 0.5
-                elif i == "😸":
-                    gambleM += 1
-            #Checks for jackpot
-            if gambleM == 4:
-                ps.cash += amount * 5
-                typewriter_effect("YOU WON THE x5 JACKPOT!", bright_yellow)
-            else:
-                if gambleM > 3:
-                    gambleM = 3
-                if gambleM < 0:
-                    gambleM = 0
-                #gives player winnings from slot machine
-                ps.cash += round(amount * gambleM)
-                winnings = round(amount * gambleM)
-                winnings = str(winnings)
-                time.sleep(1)
-                #checks if player won or lost
-                if int(winnings) > amount:
-                    typewriter_effect("You Won $" + winnings, bright_yellow)
-                else:
-                    typewriter_effect("You Lost", red)
-            time.sleep(2)
-            shop()
     #goes to next fight
     elif x == "d":
         invSave.update(inventory)
