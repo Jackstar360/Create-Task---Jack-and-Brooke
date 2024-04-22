@@ -176,7 +176,9 @@ def healthbar():
         print(fighters[0].hp)
         
 #displays player inventory
-def inventoryUi():
+def inventoryUi(hp):
+    hp = ps.hp
+    while fighters[0].hp > 0 and ps.hp > 0:
     healthbar()#displays opponent health
     ps.hp = round(ps.hp, 2) #rounds and colors health
     hpclr = green
@@ -185,7 +187,7 @@ def inventoryUi():
     elif ps.hp <= (ps.maxhp * 2.5/5):
         hpclr = bright_yellow
     #displays inventory, health, and cash
-    print(f"{'Health: ' + hpclr + str(ps.hp) + reset}")
+    print(f"{'Health: ' + hpclr + str(hp) + reset}")
 
 #checks if the player or opponent is dead
 def death():

@@ -437,6 +437,13 @@ def item(menuSelected):
         typewriter_effect4("You ferociously scratch a clearly beat up pole covered in carpet, ", random.choices(cLines.scratchingPost), yellow)
         time.sleep(2)
         delete_lines(1)
+    elif it == "Ball of Yarn":
+        inventory["Ball of Yarn"] -= 1
+        delete_lines(11)
+        inventoryUi()
+        
+
+        
     #Lets the player do things after using an item
     td2 = False
     while td2 == False:
@@ -456,6 +463,9 @@ Press [1-10] to select Items""", bright_cyan)
             typewriter_effect3("You dealt ", str(dmg), " damage", red)
             td2 = True
             ps.td = True
+            if scpos == True:
+                scpos = False
+                ps.dmg = ps.dmg/2
         #player's block
         elif menuSelect == "d":
             delete_lines(11)
