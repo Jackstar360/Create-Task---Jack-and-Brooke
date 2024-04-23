@@ -6,6 +6,27 @@ import time
 import sys
 import random
 
+#Text colors
+black = "\033[30m"
+red = "\033[31m"
+green = "\033[32m"
+yellow = "\033[33m"
+blue = "\033[34m"
+magenta = "\033[35m"
+cyan = "\033[36m"
+white = "\033[37m"
+bright_black = "\033[90m"
+bright_red = "\033[91m"
+bright_green = "\033[92m"
+bright_yellow = "\033[93m"
+bright_blue = "\033[94m"
+bright_magenta = "\033[95m"
+bright_cyan = "\033[96m"
+bright_white = "\033[97m"
+bold = '\033[1m'
+italics = '\033[3m'
+reset = "\033[0m"
+
 #counts up to a number, used to show how much you won
 def countUpTo(desired_amount, color):
     current_number = 0
@@ -74,11 +95,12 @@ def colorize(text, color):
 
 #random lines for when you use an item
 class cLines:
-    whippedCream = ["you still feel empty","it fills you with Determination","you can feel it evaporate before even reaching your stomach","and leave none for the next person!","it's just what you need to heal the open wounds"]
+    whippedCream = ["you still feel empty","it fills you with Determination","you can feel it evaporate before even reaching your stomach","and leave none for the next person!","it's just what you need to heal the open wounds",f"{italics}{'glug glug glug'}{reset}"]
     toyMouse = ["and begin swinging it around like a maniac","you opponent seemed to get quite excited","it reminds you that you forgot to eat lunch","you wonder if this will actually be an effective weapon"]
     cardboardBox = ["it makes you feel safe","your opponent seems jealous","it would be a pretty fun rocket ship","its more comfortable than any bed","it makes you feel a little sleepy"]
-    scratchingPost = ["it reminds you of your favorite curtains","it makes you feel unnaturally strong","your opponent seems worried","you have so much fun you almost forgot you were fighting","your claws glisten in the light"]
-    
+    scratchingPost = ["it reminds you of your favorite curtains","it makes you feel unnaturally strong","your opponent seems worried","you have so much fun you almost forgot you were fighting","your claws glisten in the light","you leave the carpet torn to shreds"]
+    ballofYarn = ["they run and pounce onto it","and you immediatly regret not keeping it","their eye's grow massive as the yarn ball slightly unravels","You fail to think of an adequite ball pun","they drop everything and rush to the yarn","they seem very distracted","they can't resist playing with it"]
+
 #Pawl's powers
 pawlPower = ["pity", "tired", "hungry", "nap", "sneeeze"]
 
@@ -89,7 +111,7 @@ class ps:
     atk = float(1.0) #attack damage
     prot = float(0.05) #armor multiplier
     oprot = float(0.05)
-    cash = 0 #money
+    cash = 800 #money
     tm = False #toy mouse equipped
     cb = False #cardboard box equipped
     wpLvl = 1 #level of current weapon
@@ -157,6 +179,7 @@ class mcs:
 tms = False
 cbbs = False
 bleh = "g"
+yarnDis = False
 
 #opponents list
 fighters = [cs, js, ms, ts, ccs, ls, mcs]
@@ -164,7 +187,7 @@ roster = [cs, js, ms, ts, ccs, ls, mcs]
 
 #player's inventory
 inventory = {
-    "Whipped Cream":0, #heals
+    "Whipped Cream":10, #heals
     "String":0, 
     "Toy Mouse":0, #offensive Item
     "Cardboard Box": 0, #defensive item
@@ -195,24 +218,7 @@ print ("""⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⠀
 ⠀⠀⠀⠉⠲⣤⣀⡀⠀⠀⠀⠀⣀⣀⣤⡴⠎⠀⠁⠀
 ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠛⠋⠉⠉⠉⠁⠀⠀⠀⠀""")
 
-#Text colors
-black = "\033[30m"
-red = "\033[31m"
-green = "\033[32m"
-yellow = "\033[33m"
-blue = "\033[34m"
-magenta = "\033[35m"
-cyan = "\033[36m"
-white = "\033[37m"
-bright_black = "\033[90m"
-bright_red = "\033[91m"
-bright_green = "\033[92m"
-bright_yellow = "\033[93m"
-bright_blue = "\033[94m"
-bright_magenta = "\033[95m"
-bright_cyan = "\033[96m"
-bright_white = "\033[97m"
-reset = "\033[0m"
+
 
 #Title
 colorize("""
@@ -392,6 +398,7 @@ def damage(atk, per):
 #function to use items
 def item(menuSelected):
     global bleh
+    global yarnDis
     x = (int(menuSelected) - 1)
     it = playerInv[x]
     #checks if the player has the item and can use it
@@ -441,9 +448,10 @@ def item(menuSelected):
         inventory["Ball of Yarn"] -= 1
         delete_lines(11)
         inventoryUi()
-        
-
-        
+        typewriter_effect4(f"{'You toss a loose pink ball of scraggly yarn to '}{fighters[0].name}{', '}", random.choices(cLines.ballofYarn), yellow)
+        time.sleep(2)
+        delete_lines(1)
+        yarnDis = True
     #Lets the player do things after using an item
     td2 = False
     while td2 == False:
@@ -454,7 +462,7 @@ Press [1-10] to select Items""", bright_cyan)
         bleh = menuSelect
         #player's attack
         if menuSelect == "a":
-            delete_lines(11)
+            delete_lines(4)
             dmg = damage(ps.atk, fighters[0].prot)
             if ps.tm == True:
                 dmg += (0.25 + ps.wpLvl * 0.25)
@@ -468,7 +476,7 @@ Press [1-10] to select Items""", bright_cyan)
                 ps.dmg = ps.dmg/2
         #player's block
         elif menuSelect == "d":
-            delete_lines(11)
+            delete_lines(4)
             typewriter_effect2("You ", "Blocked", black)
             ps.prot += 0.6
             td2 = True
@@ -487,6 +495,7 @@ Press [1-10] to select Items""", bright_cyan)
 def fight(opponent):
     global bleh
     global pawlNap
+    global yarnDis
     #makes sure no one is already dead
     if ps.hp <= 0 or fighters[0].hp <= 0:
         death()
@@ -700,7 +709,16 @@ Press [1-10] to select Items""", bright_cyan)
             time.sleep(1.5)
             delete_lines(4)
         #switches to opponent's turn if the player is done
-        if ps.td == True:
+        if yarnDis == True:
+            if opponent == ms:
+                ms.charge = 2
+            elif opponent == ccs:
+                ccs.charge = 4
+            elif opponent == ls:
+                ls.charge = 2
+            yarnDis = False
+            ps.td = False
+        elif ps.td == True:
             time.sleep(1)
             delete_lines(1)
             #resets opponent's block
@@ -894,6 +912,9 @@ Press [d] to fight next opponent""", yellow)
             if tms == False:
                 print("[2]Toy Mouse - $250")
                 print("﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌")
+            elif tms == True and ps.wpLvl < 8:
+                print(f"{'[2]Rock - $'}{(100 + (50 * ps.wpLvl))}")
+                print("﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌")
             else:
                 print("[2]SOLD OUT")
                 print("﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌")
@@ -941,6 +962,24 @@ Press [d] to fight next opponent""", yellow)
                     delete_lines(1)
                     inventory["Toy Mouse"] += 1
                     ps.cash -= 250
+                    typewriter_effect("Toy Mouse Level +1", yellow)
+                    time.sleep(1)
+                    j = 3
+                else:
+                    delete_lines(1)
+                    typewriter_effect("[Boe] Yuh aint got the cash", blue)
+                    time.sleep(1)
+                    j = 3
+            elif sell == 2 and tms == True and ps.wpLvl < 8:
+                delete_lines(12)
+                print("""Boe is offering to duct tape rocks to your rodent toy [Deals Extra Damage]""")
+                buy = input("Buy?[y/n] ")
+                #checks if they are sure and can afford it
+                if buy == "y" and ps.cash >= 100 + (50 * ps.wpLvl):
+                    tms = True
+                    delete_lines(1)
+                    inventory["Toy Mouse"] += 1
+                    ps.cash -= 100 + (50 * ps.wpLvl)
                     typewriter_effect("You got +1 Toy Mouse!", yellow)
                     time.sleep(1)
                     j = 3
@@ -1128,5 +1167,5 @@ Press [d] to fight next opponent""", yellow)
 start_choice = input("Press [y] to start: ")
 if start_choice == "y":
     delete_lines(1)
-    fight(fighters[0])
-    #shop()
+    #fight(fighters[0])
+    shop()

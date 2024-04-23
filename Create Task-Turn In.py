@@ -177,17 +177,16 @@ def healthbar():
         
 #displays player inventory
 def inventoryUi(hp):
-    hp = ps.hp
     while fighters[0].hp > 0 and ps.hp > 0:
-    healthbar()#displays opponent health
-    ps.hp = round(ps.hp, 2) #rounds and colors health
-    hpclr = green
-    if ps.hp <= (ps.maxhp * 1/5):
-        hpclr = red
-    elif ps.hp <= (ps.maxhp * 2.5/5):
-        hpclr = bright_yellow
-    #displays inventory, health, and cash
-    print(f"{'Health: ' + hpclr + str(hp) + reset}")
+        healthbar()#displays opponent health
+        ps.hp = round(ps.hp, 2) #rounds and colors health
+        hpclr = green
+        if ps.hp <= (ps.maxhp * 1/5):
+            hpclr = red
+        elif ps.hp <= (ps.maxhp * 2.5/5):
+            hpclr = bright_yellow
+        #displays inventory, health, and cash
+        print(f"{'Health: ' + hpclr + str(hp) + reset}")
 
 #checks if the player or opponent is dead
 def death():
@@ -282,7 +281,7 @@ def fight(opponent):
   \___/ \___||___/___/_|\___\__,_|\__|                              """)
     #displays inventory and battle options
     while ps.hp > 0 and fighters[0].hp > 0:
-        inventoryUi()
+        inventoryUi(ps.hp)
         ps.td = False
         colorize("""Press [a] to Attack
 Press [d] to Defend""", bright_cyan)
@@ -294,13 +293,13 @@ Press [d] to Defend""", bright_cyan)
             dmg = damage(ps.atk, fighters[0].prot)
             dmg = round(dmg, 2)
             fighters[0].hp = fighters[0].hp - dmg
-            inventoryUi()
+            inventoryUi(ps.hp)
             typewriter_effect3("You dealt ", str(dmg), " damage", red)
             ps.td = True
         #player's block
         elif menuSelect == "d":
             delete_lines(7)
-            inventoryUi()
+            inventoryUi(ps.hp)
             typewriter_effect2("You ", "Blocked", black)
             ps.prot += 0.6
             ps.td = True
